@@ -1,3 +1,10 @@
+# dependencies
+node_modules
+
+# production
+build
+dist
+
 # Compiled source #
 ###################
 *.com
@@ -36,3 +43,4 @@
 ehthumbs.db
 Thumbs.db
 .idea
+npm-debug.log
