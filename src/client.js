@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Chat from './components/chat'
+import './client.css'
+
 ReactDOM.render(
-  <h1>Hello, world!</h1>,
+  <Chat></Chat>,
   document.getElementById('root')
 );
