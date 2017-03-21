@@ -53,11 +53,7 @@ class Chat extends Component {
   render() {
     var rows = []
     for (var i = 0; i < this.state.messages.length; i++) {
-<<<<<<< Updated upstream
       rows.push(<div className="messages" key={'message' + i} ><div className="message-user-name">{this.state.userName}: </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
-=======
-      rows.push(<div id={'element-' + i} key={i}> {this.state.messages[i].msg} </div>)
->>>>>>> Stashed changes
     }
     return (
       <div className="chat-div">
