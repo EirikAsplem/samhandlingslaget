@@ -1,0 +1,72 @@
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  background: #00ff00;
+  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  background-image: url('http://classroomclipart.com/images/gallery/Animations/Health/virus_cartoon_animation_5C.gif');
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  height: 1em;
+  width: 1em;
+  border-radius: 50%;
+  background-image: url('http://classroomclipart.com/images/gallery/Animations/Health/virus_cartoon_animation_5C.gif');
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 70%;
+  height: 8.4px;
+  cursor: pointer;
+  background: rgb(81, 205, 56);
+  border-radius: 5px;
+}
+
+input[type=range]::-moz-range-track {
+  width: 70%;
+  height: 8.4px;
+  cursor: pointer;
+  background: rgb(81, 205, 56);
+  border-radius: 5px;
+}
+
+input[type=range]::-ms-track {
+  width: 70%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+/*
+input[type=range]::-ms-fill-lower {
+  background: rgb(81, 205, 56);
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: rgb(81, 205, 56);
+}
+input[type=range]::-ms-fill-upper {
+  background: rgb(81, 205, 56);
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: rgb(81, 205, 56);
+}*/
