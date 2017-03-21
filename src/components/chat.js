@@ -13,7 +13,8 @@ class Chat extends Component {
       messages: [],
       team: false,
       input: "",
-      typer: ""
+      typer: "",
+      prevInput: ""
     }
   }
 
@@ -27,7 +28,9 @@ class Chat extends Component {
     })
 
     socket.on('typing', function(typer) {
-      console.log(typer.user);
+      if (typer.user.length >= 0) {
+        console.log(typer.user);
+      }
     })
 
     document.getElementById("message-input").addEventListener("keyup", function(event) {
@@ -50,20 +53,31 @@ class Chat extends Component {
     this.sendMessage()
   }
 
-  sendTyping() {
-    //Dette trenger kun sendes en gang.. Fiks senere
-    socket.emit('typing', {user: this.state.userName})
+  sendTyping(isTyping) {
+    if (isTyping) {
+      socket.emit('typing', {user: this.state.userName})
+    }
+    else {
+      socket.emit('typing', {user: ""})
+    }
   }
 
   inputHandler(event) {
     var temp = this.state.input
     temp = event.target.value
 
-    if (temp.length != 0) {
-      this.sendTyping()
+    if (temp.length != 0 && this.state.prevInput === 0) {
+      this.sendTyping(true)
+    }
+    else if(temp.length === 0 && this.state.prevInput >= 0) {
+      this.sendTyping(false)
     }
 
-    this.setState({input: temp})
+    var tempPrevInput = this.state.prevInput
+    this.setState({
+      input: temp,
+      prevInput: tempPrevInput
+    })
   }
 
   render() {
@@ -76,7 +90,6 @@ class Chat extends Component {
         <div className="message-div">
             {rows}
         </div>
-        <ul id="messages"></ul>
         <div className="input-div" ref="inputDiv">
             <input onChange={this.inputHandler.bind(this)} ref="messageInput" id="message-input" /> <button onClick={this.buttonHandler.bind(this)}>Send</button>
         </div>
