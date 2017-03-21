@@ -60,7 +60,6 @@ class Chat extends Component {
         <div className="message-div">
             {rows}
         </div>
-        <ul id="messages"></ul>
         <div className="input-div" ref="inputDiv">
             <input onChange={this.inputHandler.bind(this)} ref="messageInput" id="message-input" /> <button onClick={this.buttonHandler.bind(this)}>Send</button>
         </div>
