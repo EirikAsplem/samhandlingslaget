@@ -1,21 +1,26 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; }
-
-
+html {
+	height: 100vh;
+	margin: 0;
+}
+body {
+	font: 13px Helvetica, Arial;
+	min-height: 100vh;
+	margin: 0;
+}
 #game{
 	width: 100%;
 }
 
 .chat-div{
 	width: 30%;
-	background-color: #ff0000;
 	float: right;
+	height: 100%;
 }
 
 #gameboard{
 	background-color: #0000ff;
 	width: 70%;
-	height: 100em;
 	margin: 0;
 	float: left;
 }
