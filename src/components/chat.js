@@ -12,17 +12,22 @@ class Chat extends Component {
       userName: "User",
       messages: [],
       team: false,
-      input: ""
+      input: "",
+      typer: ""
     }
   }
 
   componentDidMount() {
     var that = this
 
-    socket.on('message', function(msg){
+    socket.on('message', function(msg) {
       var temp = that.state.messages
       temp.push(msg)
       that.setState({messages: temp})
+    })
+
+    socket.on('typing', function(typer) {
+      console.log(typer.user);
     })
 
     document.getElementById("message-input").addEventListener("keyup", function(event) {
@@ -33,20 +38,31 @@ class Chat extends Component {
     })
   }
 
-
   sendMessage() {
-    socket.emit('message', {msg: this.state.input, userName: this.state.userName})
-    this.refs.messageInput.value = ""
+    if(this.state.input != "") {
+      socket.emit('message', {msg: this.state.input, userName: this.state.userName})
+      this.refs.messageInput.value = ""
+      this.setState({input: ""});
+    }
   }
 
   buttonHandler(event) {
     this.sendMessage()
   }
 
-  inputHandler(event) {
+  sendTyping() {
+    //Dette trenger kun sendes en gang.. Fiks senere
+    socket.emit('typing', {user: this.state.userName})
+  }
 
+  inputHandler(event) {
     var temp = this.state.input
     temp = event.target.value
+
+    if (temp.length != 0) {
+      this.sendTyping()
+    }
+
     this.setState({input: temp})
   }
 

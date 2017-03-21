@@ -11,6 +11,9 @@ io.on('connection', function(socket){
     console.log('message');
     io.emit('message', msg)
   })
+  socket.on('typing', function(typer) {
+    io.emit('typing', typer)
+  })
 });
 
 http.listen(process.env.PORT || 3000);
