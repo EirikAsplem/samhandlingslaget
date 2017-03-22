@@ -13,9 +13,9 @@ body { font: 13px Helvetica, Arial; }
 }
 
 #gameboard{
-	background-color: #0000ff;
+	background-color: rgb(58, 148, 122);
 	width: 70%;
-	height: 100em;
 	margin: 0;
 	float: left;
+	color: white;
 }
