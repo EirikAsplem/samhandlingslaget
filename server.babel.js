@@ -10,13 +10,17 @@ var pendulum = false
 io.on('connection', function(socket){
   allClients.push(socket)
   console.log('User connected: ' + socket.id)
-  //socket.set('userTeam', pendulum)
-  pendulum = !pendulum
   io.emit('usersConnected', {msg: Object.keys(io.sockets.sockets)})
 
   socket.on('newPlayer', function (msg) {
     console.log('newPlayer')
+    socket.player = msg.player
+    socket.team = msg.team
     io.emit('newPlayer', msg)
+  })
+
+  socket.on('myName', function(msg) {
+    socket.broadcast.emit('myName', {id: socket.id, name: msg.msg, team: msg.team, map: msg.map})
   })
 
   socket.on('message', function(msg) {
@@ -26,7 +30,7 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function() {
     console.log('User disconnected: ' + socket.id)
-    socket.broadcast.emit('usersConnected', {msg: Object.keys(io.sockets.sockets)})
+    socket.broadcast.emit('userDisconnected', {id: socket.id})
   })
 
   socket.on('typing', function(typer) {
