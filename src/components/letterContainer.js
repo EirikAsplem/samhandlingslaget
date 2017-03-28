@@ -43,7 +43,7 @@ class LetterContainer extends Component {
                 <div className="letters">
                     {letters}
                 </div>
-                <button onClick={this.buttonHandler.bind(this)}>Try</button>
+                <button className="button" onClick={this.buttonHandler.bind(this)}>Try</button>
             </div>
         )
     }
