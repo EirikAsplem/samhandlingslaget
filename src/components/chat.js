@@ -12,13 +12,12 @@ class Chat extends Component {
     this.cipher = window.Cipher
     var username = "" + Math.floor(Math.random() * 1000);
     this.state = {
-      userName: username  ,
+      userName: username,
       messages: [],
       players: [],
       names: [],
       team: false,
       input: "",
-      typer: "",
       prevInput: 0,
       typers: []
     }

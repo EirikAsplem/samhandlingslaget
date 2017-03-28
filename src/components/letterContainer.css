@@ -1,0 +1,60 @@
+*{
+    margin: 0;
+}
+
+.alphabetLetter{
+    font-size: large;
+    align-content: center;
+    text-align: center;
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #eeeeee;
+}
+
+.cryptedLetter{
+    height: 50%;
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+
+.letterBox{
+    height: 5.5em;
+    width: 3.06em;
+    border: 2px solid black;
+    margin: 0.2em;
+    border-radius: 2px;
+}
+
+.letters{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+#input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-top: 2px solid black;
+    font-size: large;
+    text-align: center;
+    background-color: #eeeeee;
+}
+
+.notLetter{
+    background-color: #ff947c !important;
+}
+
+.button{
+    width: 20%;
+    border: none;
+    margin: 3px auto;
+    padding: 10px;
+    height: 10%;
+    border-radius: 5px;
+}
