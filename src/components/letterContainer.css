@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+}
+
+.alphabetLetter{
+    font-size: large;
+    align-content: center}
+
+.notLetter{
+    background-color: red;
+}
+
+.letterBox{
+    height: 5em;
+    width: 2em;
+}
+
+#input{
+    width: 2em;
+    height: 2em;
+}
+
