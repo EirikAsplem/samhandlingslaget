@@ -91,7 +91,7 @@
         return text.split('').map(function(v) {
             // Replace old character by new one
             // And make it uppercase to make it look even fancier
-            if (v === v.toUpperCase()) return (Cipher.map[v.toLowerCase()]) ? map[v.toLowerCase()].toUpperCase() : v;
+            if (v === v.toUpperCase()) return (Cipher.map[v.toLowerCase()]) ? Cipher.map[v.toLowerCase()].toUpperCase() : v;
             return (Cipher.map[v.toLowerCase()]) ? Cipher.map[v.toLowerCase()] : v;
         }).join('');
     };
