@@ -154,7 +154,7 @@ class Chat extends Component {
     }
     return (
       <div className="chat-div">
-        
+
       <button onClick={this.teamHandler.bind(this)}>{this.state.team.toString()}</button>
       <button onClick={this.debugHandler.bind(this)}>Debug</button>
       <input onChange={this.debugInputHandler.bind(this)} /> <button onClick={this.debugNewPlayerHandler.bind(this)}>NewPlayer</button>
