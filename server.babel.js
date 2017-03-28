@@ -29,7 +29,9 @@ io.on('connection', function(socket){
     socket.broadcast.emit('usersConnected', {msg: Object.keys(io.sockets.sockets)})
   })
 
-
+  socket.on('typing', function(typer) {
+    socket.broadcast.emit('typing', typer)
+  })
 });
 
 http.listen(process.env.PORT || 3000, function() {
