@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 const io = require('socket.io-client')
 const socket = io()
+const Cipher = require('../cipher')
 
 import styles from './chat.css';
 
@@ -8,9 +9,11 @@ class Chat extends Component {
 
   constructor() {
     super()
+    this.cipher = window.Cipher
     this.state = {
       userName: "User",
       messages: [],
+      players: [],
       team: false,
       input: ""
     }
@@ -19,10 +22,29 @@ class Chat extends Component {
   componentDidMount() {
     var that = this
 
+
+
     socket.on('message', function(msg){
       var temp = that.state.messages
+      if (msg.team === that.state.team) {
+        msg.msg = that.cipher.toQWERTY(msg.msg + '', true)
+      }
       temp.push(msg)
       that.setState({messages: temp})
+      console.log(that.state.messages)
+    })
+    socket.on('usersConnected', function(msg) {
+        that.setState({players: msg.msg})
+        console.log(that.state.players)
+    })
+    socket.on('newPlayer', function(msg) {
+      console.log(msg.player + ' connected');
+      var temp = that.state.players
+      if (msg.player !== that.state.userName) {
+        temp.push(msg.player)
+        that.setState({players: temp})
+        console.log(that.state.players)
+      }
     })
 
     document.getElementById("message-input").addEventListener("keyup", function(event) {
@@ -35,7 +57,8 @@ class Chat extends Component {
 
 
   sendMessage() {
-    socket.emit('message', {msg: this.state.input, userName: this.state.userName})
+    var encoded = this.cipher.toQWERTY(this.state.input + '')
+    socket.emit('message', {msg: encoded, userName: this.state.userName, team: this.state.team})
     this.refs.messageInput.value = ""
   }
 
@@ -50,6 +73,25 @@ class Chat extends Component {
     this.setState({input: temp})
   }
 
+  teamHandler(event) {
+    var temp = !this.state.team
+    this.setState({team: temp})
+  }
+
+  debugHandler(event) {
+    this.cipher.makeRandomMap()
+  }
+  // SLETTES
+  debugInputHandler(event) {
+    var temp = this.state.userName
+    temp = event.target.value
+    this.setState({userName: temp})
+  }
+  // SLETTES
+  debugNewPlayerHandler(event) {
+    socket.emit('newPlayer', {player: this.state.userName})
+  }
+
   render() {
     var rows = []
     for (var i = 0; i < this.state.messages.length; i++) {
@@ -57,6 +99,11 @@ class Chat extends Component {
     }
     return (
       <div className="chat-div">
+      <!-- SLETTES -->
+      <button onClick={this.teamHandler.bind(this)}>{this.state.team.toString()}</button>
+      <button onClick={this.debugHandler.bind(this)}>Debug</button>
+      <input onChange={this.debugInputHandler.bind(this)} /> <button onClick={this.debugNewPlayerHandler.bind(this)}>NewPlayer</button>
+      <!-- /SLETTES -->
         <div className="message-div">
             {rows}
         </div>
