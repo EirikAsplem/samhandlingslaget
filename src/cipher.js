@@ -23,43 +23,76 @@
      * @return {string}
      */
 
+
+
+     Cipher.makeRandomMap = function() {
+       var arr = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+       var length = arr.length
+       var randArr = []
+       for (var i = 0; i < length; i++) {
+         var rand = Math.floor(Math.random() * arr.length)
+         var value = arr.splice(rand, 1)[0]
+         randArr.push(value)
+       }
+       var map = {
+           a: randArr[0], b: randArr[1], c: randArr[2],
+           d: randArr[3], e: randArr[4], f: randArr[5],
+           g: randArr[6], h: randArr[7], i: randArr[8],
+           j: randArr[9], k: randArr[10], l: randArr[11],
+           m: randArr[12], n: randArr[13], o: randArr[14],
+           p: randArr[15], q: randArr[16], r: randArr[17],
+           s: randArr[18], t: randArr[19], u: randArr[20],
+           v: randArr[21], w: randArr[22], x: randArr[23],
+           y: randArr[24], z: randArr[25], 1:9 + ''
+       };
+       return map
+     }
+
+     Cipher.map = Cipher.makeRandomMap()
+
     Cipher.toQWERTY = function(text, decode) {
         // ABCDEF to QWERTY map
-        var map = {
-            a: 'q', b: 'w', c: 'e',
-            d: 'r', e: 't', f: 'y',
-            g: 'u', h: 'i', i: 'o',
-            j: 'p', k: 'a', l: 's',
-            m: 'd', n: 'f', o: 'g',
-            p: 'h', q: 'j', r: 'k',
-            s: 'l', t: 'z', u: 'x',
-            v: 'c', w: 'v', x: 'b',
-            y: 'n', z: 'm'
-        };
+        // var map = {
+        //     a: 'q', b: 'w', c: 'e',
+        //     d: 'r', e: 't', f: 'y',
+        //     g: 'u', h: 'i', i: 'o',
+        //     j: 'p', k: 'a', l: 's',
+        //     m: 'd', n: 'f', o: 'g',
+        //     p: 'h', q: 'j', r: 'k',
+        //     s: 'l', t: 'z', u: 'x',
+        //     v: 'c', w: 'v', x: 'b',
+        //     y: 'n', z: 'm', 1:9 + ''
+        // };
 
         // Flip the map
         if(decode) {
-            map = (function() {
+            Cipher.map = (function() {
                 var tmp = {};
                 var k;
 
                 // Populate the tmp variable
-                for(k in map) {
-                    if(!map.hasOwnProperty(k)) continue;
-                    tmp[map[k]] = k;
+                for(k in Cipher.map) {
+                    if(!Cipher.map.hasOwnProperty(k)) continue;
+                    tmp[Cipher.map[k]] = k;
                 }
 
                 return tmp;
             })();
         }
 
-        return text.split('').filter(function(v) {
-            // Filter out characters that are not in our list
-            return map.hasOwnProperty(v.toLowerCase());
-        }).map(function(v) {
+        // return text.split('').filter(function(v) {
+        //     // Filter out characters that are not in our list
+        //     return map.hasOwnProperty(v.toLowerCase());
+        // }).map(function(v) {
+        //     // Replace old character by new one
+        //     // And make it uppercase to make it look even fancier
+        //     return map[v.toLowerCase()].toUpperCase();
+        // }).join('');
+        return text.split('').map(function(v) {
             // Replace old character by new one
             // And make it uppercase to make it look even fancier
-            return map[v.toLowerCase()].toUpperCase();
+            if (v === v.toUpperCase()) return (Cipher.map[v.toLowerCase()]) ? Cipher.map[v.toLowerCase()].toUpperCase() : v;
+            return (Cipher.map[v.toLowerCase()]) ? Cipher.map[v.toLowerCase()] : v;
         }).join('');
     };
 
