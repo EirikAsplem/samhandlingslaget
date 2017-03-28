@@ -12,12 +12,12 @@ class Chat extends Component {
     this.cipher = window.Cipher
     var username = "" + Math.floor(Math.random() * 1000);
     this.state = {
-      userName: username  ,
+      userName: username,
       messages: [],
       players: [],
+      names: [],
       team: false,
       input: "",
-      typer: "",
       prevInput: 0,
       typers: []
     }
@@ -26,15 +26,15 @@ class Chat extends Component {
   componentDidMount() {
     var that = this
 
-
     socket.on('message', function(msg) {
+      console.log(msg.msg)
       var temp = that.state.messages
       if (msg.team === that.state.team) {
         msg.msg = that.cipher.toQWERTY(msg.msg + '', true)
       }
       temp.push(msg)
       that.setState({messages: temp})
-      console.log(that.state.messages)
+      //console.log(that.state.messages)
       var messageDiv = document.getElementById("message-div");
       messageDiv.scrollTop = messageDiv.scrollHeight;
     })
@@ -43,13 +43,30 @@ class Chat extends Component {
         console.log(that.state.players)
     })
     socket.on('newPlayer', function(msg) {
-      console.log(msg.player + ' connected');
       var temp = that.state.players
       if (msg.player !== that.state.userName) {
+        temp.indexOf()
         temp.push(msg.player)
         that.setState({players: temp})
         console.log(that.state.players)
       }
+    })
+
+    socket.on('myName', function(msg) {
+      var temp = that.state.names
+      temp[msg.id] = msg.name
+      that.setState({names: temp})
+      if (msg.team === that.state.team) that.cipher.setMap(msg.map)
+      console.log(that.state.names)
+    })
+
+    socket.on('userDisconnected', function(msg) {
+      var temp = that.state.players
+      var i = temp.indexOf(msg.id)
+      temp.splice(i, 1)
+      var temp2 = that.state.names
+      temp2.splice(msg.id, 1)
+      that.setState({players: temp, names: temp2})
     })
 
     socket.on('typing', function(typer) {
@@ -61,6 +78,7 @@ class Chat extends Component {
         for (var i = 0; i < tempTypers.length; i++) {
           if (tempTypers[i] === typer.user) {
             tempTypers.splice(i,1)
+            break;
           }
         }
       }
@@ -79,7 +97,7 @@ class Chat extends Component {
     var encoded = this.cipher.toQWERTY(this.state.input + '')
     if(this.state.input != "") {
       socket.emit('message', {msg: encoded, userName: this.state.userName, team: this.state.team})
-      socket.emit('typing', {user: this.state.userName, typing: false})
+      this.sendTyping(false)
       this.refs.messageInput.value = ""
       this.setState({input: "", prevInput: 0})
     }
@@ -122,9 +140,9 @@ class Chat extends Component {
   }
 
   debugHandler(event) {
-    this.cipher.makeRandomMap()
+    socket.emit('myName', {msg: this.state.userName, team: this.state.team, map: this.cipher.map})
   }
-  // SLETTES
+  // SLETTES NÅR HÅVARD ER FERDIG
   debugInputHandler(event) {
     var temp = this.state.userName
     temp = event.target.value
@@ -132,14 +150,15 @@ class Chat extends Component {
   }
   // SLETTES
   debugNewPlayerHandler(event) {
-    socket.emit('newPlayer', {player: this.state.userName})
+    socket.emit('newPlayer', {player: this.state.userName, team: this.state.team})
   }
 
   render() {
     var messageRows = []
     for (var i = 0; i < this.state.messages.length; i++) {
-      messageRows.push(<div className="messages" key={'message' + i} ><div className="message-user-name">{this.state.messages[i].userName}: </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
+      messageRows.push(<div className="messages" key={'message' + i} ><div className="message-user-name">{this.state.messages[i].userName} </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
     }
+
     var typer = ""
     if(this.state.typers.length > 0) {
       for(var i = 0; i < this.state.typers.length; i++) {
@@ -152,6 +171,7 @@ class Chat extends Component {
       }
       typer += " is typing..."
     }
+
     return (
       <div className="chat-div">
 
