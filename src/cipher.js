@@ -23,7 +23,9 @@
      * @return {string}
      */
 
-
+     Cipher.setMap = function(map) {
+       Cipher.map = map
+     }
 
      Cipher.makeRandomMap = function() {
        var arr = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -65,15 +67,16 @@
         // };
 
         // Flip the map
+        var map = Cipher.map
         if(decode) {
-            Cipher.map = (function() {
+            map = (function() {
                 var tmp = {};
                 var k;
 
                 // Populate the tmp variable
-                for(k in Cipher.map) {
-                    if(!Cipher.map.hasOwnProperty(k)) continue;
-                    tmp[Cipher.map[k]] = k;
+                for(k in map) {
+                    if(!map.hasOwnProperty(k)) continue;
+                    tmp[map[k]] = k;
                 }
 
                 return tmp;
@@ -91,8 +94,8 @@
         return text.split('').map(function(v) {
             // Replace old character by new one
             // And make it uppercase to make it look even fancier
-            if (v === v.toUpperCase()) return (Cipher.map[v.toLowerCase()]) ? Cipher.map[v.toLowerCase()].toUpperCase() : v;
-            return (Cipher.map[v.toLowerCase()]) ? Cipher.map[v.toLowerCase()] : v;
+            if (v === v.toUpperCase()) return (map[v.toLowerCase()]) ? map[v.toLowerCase()].toUpperCase() : v;
+            return (map[v.toLowerCase()]) ? map[v.toLowerCase()] : v;
         }).join('');
     };
 
