@@ -8,6 +8,13 @@ import './slider.css'
 import './popup.css'
 
 class Gameboard extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      show: true
+    }
+  }
 
   togglePopup(event) {
     console.log("got here");
@@ -15,15 +22,27 @@ class Gameboard extends Component {
     popup.classList.toggle("show");
   }
 
-  render() {
+  debugHandler(event) {
+    var temp = !this.state.show
+    this.setState({show: temp})
+  }
 
+  render() {
+    var game
+    if (this.state.show) {
+      game = <CssComponent id="gameView"></CssComponent>
+    }
+    else {
+      game = <FrogComponent id="gameView"></FrogComponent>
+    }
     return (
       <div id="gameboard">
         <h1>Crack the Code</h1>
+        <button onClick={this.debugHandler.bind(this)}>Debug</button>
         <div id="progressBar">
           <span>Opponent</span><input type="range"  min="0" max="100"/> <span>Us</span>
         </div>
-        <FrogComponent id="gameView"></FrogComponent>
+        {game}
         <button id="questionMark" onClick={this.togglePopup.bind(this)}>?</button>
         <div className="myPopup"><span id="popuptext">An explanations of the current puzzle will be displayed here.
         The purpose of this is to provide hints to the players when needed and to understand the solutions of the puzzle at the end.</span></div>

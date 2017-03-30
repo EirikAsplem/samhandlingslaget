@@ -1,17 +1,17 @@
 #pond, #background {
   display: flex;
   margin: 0 auto;
-  margin-top: 10%;
+  margin-top: 2em;
   margin-bottom: 10%;
-  width: 50vh;
-  height: 50vh;
+  width: 600px;
+  height: 600px;
   padding: 1em;
   background-color: #1F5768;
 }
 
 .frog {
-  width: 155px;
-  height: 130px;
+  width: 114px;
+  height: 97px;
 }
 
 .lilypad {

@@ -8,29 +8,30 @@ class FrogComponent extends Component {
 
   componentDidMount() {
     socket.on('codeInput', function(text) {
-      console.log(text);
+      if (text === "justify-content: flex-end;") {
+        document.getElementById('pond').style.justifyContent = "flex-end"
+      }
     })
   }
 
   render() {
 
     const frogStyle = {
-      backgroundImage: 'url(/img/frog-green.png)',
+      backgroundImage: 'url(/img/froggy-green-1.png)',
     }
 
     const lilyStyle = {
-      backgroundImage: 'url(/img/lilypad-green.png)',
+      backgroundImage: 'url(/img/lilypad-background-2.png)',
     }
 
     return (
-        <div id="pond">
+        <div id="pond" style={lilyStyle}>
           <div className="frog green" style={frogStyle}>
-          </div>
-          <div className="lilypad green" style={lilyStyle}>
           </div>
         </div>
     )
   }
 }
-
+//          <div className="lilypad green" style={lilyStyle}>
+// </div>
 export default FrogComponent
