@@ -1,0 +1,68 @@
+#editor {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  width: 50%;
+}
+
+#editor,
+pre {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #aaa;
+}
+
+pre {
+  margin: 0;
+}
+
+
+#css {
+  height: 260px;
+  position: relative;
+  padding: 10px 10px 10px 50px;
+  background-color: #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.line-numbers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 6px;
+  text-align: right;
+  background-color: #999;
+  color: #D5D5D5;
+}
+
+#code {
+  display: block;
+  width: calc(100% - 16px);
+  height: 24px;
+  margin-left: 16px;
+  border: none;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 16px;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
+
+#next {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+  width: 15%;
+  margin: 3px auto;
+  height: 10%;
+  border-radius: 5px;
+  background-color: #999;
+  color: #D5D5D5;
+}
+
+#next.disabled {
+  opacity: 0.5;
+}

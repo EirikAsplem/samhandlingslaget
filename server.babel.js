@@ -36,6 +36,11 @@ io.on('connection', function(socket){
   socket.on('typing', function(typer) {
     socket.broadcast.emit('typing', typer)
   })
+
+  //Her må det sendes til rett person.
+  socket.on('codeInput', function(text) {
+    io.emit('codeInput', text)
+  })
 });
 
 http.listen(process.env.PORT || 3000, function() {

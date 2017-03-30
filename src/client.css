@@ -30,9 +30,10 @@ body {
 	margin: 0;
 	float: left;
 	color: white;
+	min-height: 100vh;
 }
 
-#temp {
+#letter-container {
 	height: 30%;
 	min-height: 30%;
 	max-height: 30%;
