@@ -10,16 +10,16 @@ class Chat extends Component {
   constructor() {
     super()
     this.cipher = window.Cipher
-    var username = "" + Math.floor(Math.random() * 1000);
     this.state = {
-      userName: username,
+      userName: "username",
       messages: [],
       players: [],
       names: [],
       team: false,
       input: "",
       prevInput: 0,
-      typers: []
+      typers: [],
+      playerinfoUpdated: false
     }
   }
 
@@ -40,34 +40,17 @@ class Chat extends Component {
       messageDiv.scrollTop = messageDiv.scrollHeight;
     })
     socket.on('usersConnected', function(msg) {
-        that.setState({players: msg.msg})
-        console.log(that.state.players)
-    })
-    socket.on('newPlayer', function(msg) {
-      var temp = that.state.players
-      if (msg.player !== that.state.userName) {
-        temp.indexOf()
-        temp.push(msg.player)
-        that.setState({players: temp})
-        console.log(that.state.players)
+      that.setState({players: msg.msg})
+      for (var key in that.state.players) {
+        if (that.state.players[key].team === that.state.team && that.state.players[key].map != "") {
+          console.log('setting new map');
+          that.cipher.setMap(that.state.players[key].map)
+        }
       }
-    })
-
-    socket.on('myName', function(msg) {
-      var temp = that.state.names
-      temp[msg.id] = msg.name
-      that.setState({names: temp})
-      if (msg.team === that.state.team) that.cipher.setMap(msg.map)
-      console.log(that.state.names)
+      console.log(that.state.players)
     })
 
     socket.on('userDisconnected', function(msg) {
-      var temp = that.state.players
-      var i = temp.indexOf(msg.id)
-      temp.splice(i, 1)
-      var temp2 = that.state.names
-      temp2.splice(msg.id, 1)
-      that.setState({players: temp, names: temp2})
     })
 
     socket.on('typing', function(typer) {
@@ -140,7 +123,8 @@ class Chat extends Component {
   }
 
   debugHandler(event) {
-    socket.emit('myName', {msg: this.state.userName, team: this.state.team, map: this.cipher.map})
+    socket.emit('updatePlayerInfo', {name: this.state.userName, team: this.state.team, map: this.cipher.map})
+    this.setState({playerinfoUpdated: true})
   }
   // SLETTES NÅR HÅVARD ER FERDIG
   debugInputHandler(event) {
@@ -149,9 +133,7 @@ class Chat extends Component {
     this.setState({userName: temp})
   }
   // SLETTES
-  debugNewPlayerHandler(event) {
-    socket.emit('newPlayer', {player: this.state.userName, team: this.state.team})
-  }
+
 
   render() {
     var messageRows = []
@@ -170,12 +152,16 @@ class Chat extends Component {
       }
       typer += " is typing..."
     }
+    var playerinfo = []
+    if (!this.state.playerinfoUpdated) {
+      playerinfo.push(<div><button onClick={this.teamHandler.bind(this)}>Team: {this.state.team.toString()}</button>
+      Name: <input onChange={this.debugInputHandler.bind(this)} />
+      <button onClick={this.debugHandler.bind(this)}>Send</button></div>)
+    }
     return (
       <div className="chat-div">
 
-      <button onClick={this.teamHandler.bind(this)}>{this.state.team.toString()}</button>
-      <button onClick={this.debugHandler.bind(this)}>Debug</button>
-      <input onChange={this.debugInputHandler.bind(this)} /> <button onClick={this.debugNewPlayerHandler.bind(this)}>NewPlayer</button>
+      {playerinfo}
 
         <div id="chat-header">
           <h2>Chat</h2>

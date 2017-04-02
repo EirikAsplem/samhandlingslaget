@@ -45,7 +45,7 @@
            p: randArr[15], q: randArr[16], r: randArr[17],
            s: randArr[18], t: randArr[19], u: randArr[20],
            v: randArr[21], w: randArr[22], x: randArr[23],
-           y: randArr[24], z: randArr[25], 1:9 + ''
+           y: randArr[24], z: randArr[25]
        };
        return map
      }

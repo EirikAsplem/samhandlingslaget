@@ -5,32 +5,49 @@ var io = require('socket.io')(http);
 
 app.use('/', express.static('public'));
 
-var allClients = []
-var pendulum = false
+io.allClients = []
 io.on('connection', function(socket){
-  allClients.push(socket)
-  console.log('User connected: ' + socket.id)
-  io.emit('usersConnected', {msg: Object.keys(io.sockets.sockets)})
-
-  socket.on('newPlayer', function (msg) {
-    console.log('newPlayer')
-    socket.player = msg.player
-    socket.team = msg.team
-    io.emit('newPlayer', msg)
-  })
-
-  socket.on('myName', function(msg) {
-    socket.broadcast.emit('myName', {id: socket.id, name: msg.msg, team: msg.team, map: msg.map})
-  })
+  io.allClients[socket.id] = {id: '',
+                              name: '',
+                              team: false,
+                              map: ''
+                            }
+  io.allClients[socket.id].id = socket.id
+  var data = []
+  for (var key in io.allClients) {
+    var obj = {id: io.allClients[key].id,
+              name: io.allClients[key].name,
+              team: io.allClients[key].team,
+              map: io.allClients[key].map
+            }
+    data.push(obj)
+  }
+  io.emit('usersConnected', {msg: data})
 
   socket.on('message', function(msg) {
     console.log('message')
     io.emit('message', msg)
   })
 
+  socket.on('updatePlayerInfo', function(msg) {
+    io.allClients[socket.id].name = msg.name
+    io.allClients[socket.id].team = msg.team
+    io.allClients[socket.id].map = msg.map
+    var data = []
+    for (var key in io.allClients) {
+      var obj = {id: io.allClients[key].id,
+                name: io.allClients[key].name,
+                team: io.allClients[key].team,
+                map: io.allClients[key].map
+              }
+      data.push(obj)
+    }
+    io.emit('usersConnected', {msg: data})
+  })
+
   socket.on('disconnect', function() {
+    delete io.allClients[socket.id]
     console.log('User disconnected: ' + socket.id)
-    socket.broadcast.emit('userDisconnected', {id: socket.id})
   })
 
   socket.on('typing', function(typer) {
