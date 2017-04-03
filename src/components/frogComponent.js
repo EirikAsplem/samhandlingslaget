@@ -6,9 +6,22 @@ import styles from './frogComponent.css'
 
 class FrogComponent extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      team: props.team
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({team: nextProps.team})
+  }
+
   componentDidMount() {
+    var that = this
     socket.on('codeInput', function(text) {
-      if (text === "justify-content: flex-end;") {
+      if (text.code === "justify-content: flex-end;" && text.team === that.state.team) {
         document.getElementById('pond').style.justifyContent = "flex-end"
       }
     })

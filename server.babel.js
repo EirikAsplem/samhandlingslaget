@@ -33,6 +33,7 @@ io.on('connection', function(socket){
     io.allClients[socket.id].name = msg.name
     io.allClients[socket.id].team = msg.team
     io.allClients[socket.id].map = msg.map
+    console.log(msg.team);
     var data = []
     for (var key in io.allClients) {
       var obj = {id: io.allClients[key].id,
@@ -56,7 +57,16 @@ io.on('connection', function(socket){
 
   //Her må det sendes til rett person.
   socket.on('codeInput', function(text) {
-    io.emit('codeInput', text)
+    io.emit('codeInput', text);
+/*    console.log(io.allClients.length);
+    var team = io.allClients[socket.id].team
+    console.log(team);
+    for (var key in io.allClients) {
+      console.log(io.allClients[key].team);
+      if (io.allClients[key].team === team && io.allClients[socket.id] != io.allClients[key].id) {
+        io.to(io.allClients[key].id).emit('codeInput', text);
+      }
+    }*/
   })
 });
 

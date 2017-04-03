@@ -46,3 +46,8 @@ body {
 	min-height: 70%;
 	width: 100%;
 }
+
+.DebugButton {
+	z-index: 18;
+	position: absolute;
+}

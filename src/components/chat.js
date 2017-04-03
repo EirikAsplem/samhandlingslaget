@@ -7,20 +7,23 @@ import styles from './chat.css';
 
 class Chat extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.cipher = window.Cipher
     this.state = {
       userName: "username",
       messages: [],
       players: [],
       names: [],
-      team: false,
+      team: props.team,
       input: "",
       prevInput: 0,
       typers: [],
       playerinfoUpdated: false
     }
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({team: nextProps.team})
   }
 
   componentDidMount() {
@@ -140,7 +143,6 @@ class Chat extends Component {
     for (var i = 0; i < this.state.messages.length; i++) {
       messageRows.push(<div className="messages" key={'message' + i} ><div className="message-user-name">{this.state.messages[i].userName} </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
     }
-
     var typer = ""
     if(this.state.typers.length > 0) {
       for(var i = 0; i < this.state.typers.length; i++) {
@@ -155,7 +157,7 @@ class Chat extends Component {
     }
     var playerinfo = []
     if (!this.state.playerinfoUpdated) {
-      playerinfo.push(<div><button onClick={this.teamHandler.bind(this)}>Team: {this.state.team.toString()}</button>
+      playerinfo.push(<div>
       Name: <input onChange={this.debugInputHandler.bind(this)} />
       <button onClick={this.debugHandler.bind(this)}>Send</button></div>)
     }
@@ -181,5 +183,5 @@ class Chat extends Component {
     )
   }
 }
-
+//<button onClick={this.teamHandler.bind(this)}>Team: {this.state.team.toString()}</button>
 export default Chat

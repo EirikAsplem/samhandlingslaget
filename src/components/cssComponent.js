@@ -6,9 +6,21 @@ import styles from './cssComponent.css'
 
 class CssComponent extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      team: props.team
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({team: nextProps.team});
+  }
+
   buttonHandler(event) {
     var text = this.refs.codeInput.value;
-    socket.emit('codeInput', text);
+    socket.emit('codeInput', {code: text, team: this.state.team});
   }
 
   render() {

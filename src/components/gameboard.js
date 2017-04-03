@@ -8,12 +8,21 @@ import './slider.css'
 import './popup.css'
 
 class Gameboard extends Component {
-  constructor() {
-    super()
+
+  constructor(props) {
+    super(props)
 
     this.state = {
-      show: true
+      show: props.show,
+      team: props.team
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      show: nextProps.show,
+      team: nextProps.team
+    })
   }
 
   togglePopup(event) {
@@ -22,23 +31,17 @@ class Gameboard extends Component {
     popup.classList.toggle("show");
   }
 
-  debugHandler(event) {
-    var temp = !this.state.show
-    this.setState({show: temp})
-  }
-
   render() {
     var game
     if (this.state.show) {
-      game = <CssComponent id="gameView"></CssComponent>
+      game = <CssComponent team={this.state.team} id="gameView"></CssComponent>
     }
     else {
-      game = <FrogComponent id="gameView"></FrogComponent>
+      game = <FrogComponent team={this.state.team} id="gameView"></FrogComponent>
     }
     return (
       <div id="gameboard">
         <h1>Crack the Code</h1>
-        <button onClick={this.debugHandler.bind(this)}>Debug</button>
         <div id="progressBar">
           <span>Opponent</span><input type="range"  min="0" max="100"/> <span>Us</span>
         </div>

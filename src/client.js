@@ -6,14 +6,12 @@ import './client.css'
 import Gameboard from './components/gameboard'
 import LetterContainer from './components/letterContainer'
 
+import TempDebugForTeam from './components/tempDebugForTeam'
+
 
 ReactDOM.render(
 	<div id="game">
-		<Gameboard></Gameboard>
-		<div id="communication-div">
-			<Chat id="communication-chat"></Chat>
-			<LetterContainer id="letter-container"></LetterContainer>
-		</div>
+		<TempDebugForTeam></TempDebugForTeam>
   </div>,
   document.getElementById('root')
 );
