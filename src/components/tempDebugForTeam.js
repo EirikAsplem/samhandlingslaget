@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import Chat from './chat'
 import Gameboard from './gameboard'
 import LetterContainer from './letterContainer'
+const io = require('socket.io-client')
+const socket = io()
 
 class TempDebugForTeam extends Component {
 
@@ -33,9 +35,9 @@ class TempDebugForTeam extends Component {
         <button className="DebugButton" onClick={this.teamHandler.bind(this)}>Team: {this.state.team.toString()}</button>
         <button className="DebugButton" onClick={this.debugHandler.bind(this)}>Debug</button>
 
-        <Gameboard show={this.state.show} team={this.state.team}></Gameboard>
+        <Gameboard show={this.state.show} team={this.state.team} data={socket}></Gameboard>
         <div id="communication-div">
-          <Chat team={this.state.team} id="communication-chat"></Chat>
+          <Chat team={this.state.team} id="communication-chat" data={socket}></Chat>
           <LetterContainer id="letter-container"></LetterContainer>
         </div>
       </div>

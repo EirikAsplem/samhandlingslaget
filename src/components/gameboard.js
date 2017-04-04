@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-const io = require('socket.io-client')
-const socket = io()
 
 import FrogComponent from './frogComponent'
 import CssComponent from './cssComponent'
@@ -13,7 +11,6 @@ class Gameboard extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       show: props.show,
       team: props.team,
@@ -31,6 +28,7 @@ class Gameboard extends Component {
 
   componentDidMount() {
     var that = this
+    var socket = this.props.data
     socket.on('finished', function(info) {
       setTimeout(function() {
         var change = that.state.gameStatus
@@ -64,10 +62,10 @@ class Gameboard extends Component {
   render() {
     var game
     if (this.state.show) {
-      game = <CssComponent team={this.state.team} id="gameView"></CssComponent>
+      game = <CssComponent team={this.state.team} id="gameView" data={this.props.data}></CssComponent>
     }
     else {
-      game = <FrogComponent team={this.state.team} backgroundNumber={this.state.backgroundNumber} id="gameView"></FrogComponent>
+      game = <FrogComponent team={this.state.team} backgroundNumber={this.state.backgroundNumber} id="gameView" data={this.props.data}></FrogComponent>
     }
     return (
       <div id="gameboard">

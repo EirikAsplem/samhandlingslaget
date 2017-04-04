@@ -7,6 +7,8 @@ app.use('/', express.static('public'));
 
 io.allClients = []
 io.on('connection', function(socket){
+  console.log('New connection')
+  console.log(io.allClients.length)
   io.allClients[socket.id] = {id: '',
                               name: '',
                               team: false,

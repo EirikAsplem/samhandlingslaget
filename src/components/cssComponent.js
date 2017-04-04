@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-const io = require('socket.io-client')
-const socket = io()
 
 import styles from './cssComponent.css'
 
@@ -8,7 +6,6 @@ class CssComponent extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       team: props.team,
     }
@@ -22,6 +19,7 @@ class CssComponent extends Component {
   }
 
   buttonHandler(event) {
+    var socket = this.props.data
     var text = this.refs.codeInput1.value;
     var codeLines = text.replace(/(\r\n)|\r|\n/g, '\n').split(/\n+/g)
     var codeEmit = ["", ""]
