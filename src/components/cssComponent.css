@@ -39,9 +39,11 @@ pre {
 }
 
 #code {
+  padding: 4px;
   display: block;
   width: calc(100% - 16px);
-  height: 24px;
+  /*height: 24px;*/
+  height: 48px;
   margin-left: 16px;
   border: none;
   font-family: 'Source Code Pro', monospace;

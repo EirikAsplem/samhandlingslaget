@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+const io = require('socket.io-client')
+const socket = io()
 
 import FrogComponent from './frogComponent'
 import CssComponent from './cssComponent'
@@ -14,15 +16,42 @@ class Gameboard extends Component {
 
     this.state = {
       show: props.show,
-      team: props.team
+      team: props.team,
+      gameStatus: 50,
+      backgroundNumber: 2
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       show: nextProps.show,
-      team: nextProps.team
+      team: nextProps.team,
     })
+  }
+
+  componentDidMount() {
+    var that = this
+    socket.on('finished', function(info) {
+      var change = that.state.gameStatus
+      if (info.team === that.state.team) {
+        change -= 10
+      }
+      else {
+        change += 10
+      }
+
+      var newBackground = info.prevBackground + 1
+      if (newBackground > 5 || newBackground < 2) {
+        newBackground = 2
+      }
+
+      that.setState({
+        backgroundNumber: newBackground,
+        gameStatus: change
+
+      })
+    })
+
   }
 
   togglePopup(event) {
@@ -37,13 +66,13 @@ class Gameboard extends Component {
       game = <CssComponent team={this.state.team} id="gameView"></CssComponent>
     }
     else {
-      game = <FrogComponent team={this.state.team} id="gameView"></FrogComponent>
+      game = <FrogComponent team={this.state.team} backgroundNumber={this.state.backgroundNumber} id="gameView"></FrogComponent>
     }
     return (
       <div id="gameboard">
         <h1>Crack the Code</h1>
         <div id="progressBar">
-          <span>Opponent</span><input type="range"  min="0" max="100"/> <span>Us</span>
+          <span>Opponent</span><input type="range"  min="0" max="100" value={this.state.gameStatus}/> <span>Us</span>
         </div>
         {game}
         <button id="questionMark" onClick={this.togglePopup.bind(this)}>?</button>

@@ -55,18 +55,12 @@ io.on('connection', function(socket){
     socket.broadcast.emit('typing', typer)
   })
 
-  //Her må det sendes til rett person.
   socket.on('codeInput', function(text) {
-    io.emit('codeInput', text);
-/*    console.log(io.allClients.length);
-    var team = io.allClients[socket.id].team
-    console.log(team);
-    for (var key in io.allClients) {
-      console.log(io.allClients[key].team);
-      if (io.allClients[key].team === team && io.allClients[socket.id] != io.allClients[key].id) {
-        io.to(io.allClients[key].id).emit('codeInput', text);
-      }
-    }*/
+    io.emit('codeInput', text)
+  })
+
+  socket.on('finished', function(info) {
+    io.emit('finished', info)
   })
 });
 

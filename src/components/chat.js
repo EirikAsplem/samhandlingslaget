@@ -141,7 +141,7 @@ class Chat extends Component {
   render() {
     var messageRows = []
     for (var i = 0; i < this.state.messages.length; i++) {
-      messageRows.push(<div className="messages" key={'message' + i} ><div className="message-user-name">{this.state.messages[i].userName} </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
+      messageRows.push(<div className="messages" key={'message + i'} ><div className="message-user-name">{this.state.messages[i].userName} </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
     }
     var typer = ""
     if(this.state.typers.length > 0) {

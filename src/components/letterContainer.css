@@ -2,6 +2,11 @@
     margin: 0;
 }
 
+.letterContainer {
+  height: 40vh;
+  max-height: 40vh;
+}
+
 .alphabetLetter{
     font-size: large;
     align-content: center;
@@ -30,6 +35,7 @@
 }
 
 .letters{
+    margin: 0 auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -47,11 +53,11 @@
     background-color: #eeeeee;
 }
 
-.notLetter{
+.notLetter {
     background-color: #ff947c !important;
 }
 
-.button{
+.button {
     width: 20%;
     border: none;
     margin: 3px auto;
