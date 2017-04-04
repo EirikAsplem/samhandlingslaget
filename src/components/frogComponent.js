@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-const io = require('socket.io-client')
-const socket = io()
 
 import styles from './frogComponent.css'
 
@@ -8,7 +6,6 @@ class FrogComponent extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
       team: props.team,
       backgroundNumber: props.backgroundNumber //2,3,4,5
@@ -35,7 +32,7 @@ class FrogComponent extends Component {
 
   componentDidMount() {
     var that = this
-
+    var socket = this.props.data
     socket.on('codeInput', function(text) {
       console.log(text.code1);
       console.log(text.code2);

@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-const io = require('socket.io-client')
-const socket = io()
 const Cipher = require('../cipher')
 
 import styles from './chat.css';
@@ -9,6 +7,7 @@ class Chat extends Component {
 
   constructor(props) {
     super(props)
+
     this.cipher = window.Cipher
     this.state = {
       userName: "username",
@@ -28,7 +27,7 @@ class Chat extends Component {
 
   componentDidMount() {
     var that = this
-
+    var socket = this.props.data
     socket.on('message', function(msg) {
       console.log(msg.msg)
       var temp = that.state.messages
@@ -80,6 +79,7 @@ class Chat extends Component {
   }
 
   sendMessage() {
+    var socket = this.props.data
     var encoded = this.cipher.toQWERTY(this.state.input + '')
     if(this.state.input != "") {
       socket.emit('message', {msg: encoded, userName: this.state.userName, team: this.state.team})
@@ -94,6 +94,7 @@ class Chat extends Component {
   }
 
   sendTyping(isTyping) {
+    var socket = this.props.data
     if (isTyping) {
       socket.emit('typing', {user: this.state.userName, typing: true})
     }
@@ -126,6 +127,7 @@ class Chat extends Component {
   }
 
   debugHandler(event) {
+    var socket = this.props.data
     socket.emit('updatePlayerInfo', {name: this.state.userName, team: this.state.team, map: this.cipher.map})
     this.setState({playerinfoUpdated: true})
   }
@@ -141,7 +143,7 @@ class Chat extends Component {
   render() {
     var messageRows = []
     for (var i = 0; i < this.state.messages.length; i++) {
-      messageRows.push(<div className="messages" key={'message + i'} ><div className="message-user-name">{this.state.messages[i].userName} </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
+      messageRows.push(<div className="messages" key={'message' + i} ><div className="message-user-name">{this.state.messages[i].userName} </div> <div className="message-text"> {this.state.messages[i].msg} </div> </div>)
     }
     var typer = ""
     if(this.state.typers.length > 0) {
