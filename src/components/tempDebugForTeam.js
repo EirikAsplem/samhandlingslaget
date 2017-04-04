@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import Chat from './chat'
-//import '../client.css'
 import Gameboard from './gameboard'
 import LetterContainer from './letterContainer'
 const io = require('socket.io-client')
