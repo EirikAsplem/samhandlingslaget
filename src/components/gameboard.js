@@ -32,26 +32,27 @@ class Gameboard extends Component {
   componentDidMount() {
     var that = this
     socket.on('finished', function(info) {
-      var change = that.state.gameStatus
-      if (info.team === that.state.team) {
-        change -= 10
-      }
-      else {
-        change += 10
-      }
+      setTimeout(function() {
+        var change = that.state.gameStatus
+        if (info.team === that.state.team) {
+          change -= 10
+        }
+        else {
+          change += 10
+        }
 
-      var newBackground = info.prevBackground + 1
-      if (newBackground > 5 || newBackground < 2) {
-        newBackground = 2
-      }
+        var newBackground = info.prevBackground + 1
+        if (newBackground > 5 || newBackground < 2) {
+          newBackground = 2
+        }
 
-      that.setState({
-        backgroundNumber: newBackground,
-        gameStatus: change
+        that.setState({
+          backgroundNumber: newBackground,
+          gameStatus: change
 
-      })
+        })
+      }, 3000)
     })
-
   }
 
   togglePopup(event) {
