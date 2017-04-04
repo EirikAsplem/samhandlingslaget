@@ -6,15 +6,17 @@ import Gameboard from './gameboard'
 import LetterContainer from './letterContainer'
 const io = require('socket.io-client')
 const socket = io()
+const Cipher = require('../cipher')
 
 class TempDebugForTeam extends Component {
 
   constructor() {
     super()
-
+    this.cipher = window.Cipher
     this.state = {
       show: true,
-      team: false
+      team: false,
+      enemyMap: []
     }
   }
 
@@ -28,6 +30,10 @@ class TempDebugForTeam extends Component {
     this.setState({team: temp})
   }
 
+  handleEnemyMap(map) {
+    this.setState({enemyMap: map})
+  }
+
   render() {
     return (
       <div id="debug-div">
@@ -38,8 +44,8 @@ class TempDebugForTeam extends Component {
 
         <Gameboard show={this.state.show} team={this.state.team} data={socket}></Gameboard>
         <div id="communication-div">
-          <Chat team={this.state.team} id="communication-chat" data={socket}></Chat>
-          <LetterContainer id="letter-container"></LetterContainer>
+          <Chat team={this.state.team} id="communication-chat" Cipher={this.cipher} data={socket} enemyMap={this.state.enemyMap}></Chat>
+          <LetterContainer id="letter-container" Cipher={this.cipher} enemyMapHandler={this.handleEnemyMap.bind(this)}></LetterContainer>
         </div>
       </div>
     )

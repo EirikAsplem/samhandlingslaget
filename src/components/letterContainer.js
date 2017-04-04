@@ -8,23 +8,26 @@ import styles from './letterContainer.css';
 
 class LetterContainer extends Component {
 
-    constructor() {
+    constructor(props) {
         super();
+        this.cipher = props.Cipher
         this.state = {
-            map:{a: '', b: '', c: '',
-                 d: '', e: '', f: '',
-                 g: '', h: '', i: '',
-                 j: '', k: '', l: '',
-                 m: '', n: '', o: '',
-                 p: '', q: '', r: '',
-                 s: '', t: '', u: '',
-                 v: '', w: '', x: '',
-                 y: '', z: ''}
+            map:{a: 'a', b: 'b', c: 'c',
+                 d: 'd', e: 'e', f: 'f',
+                 g: 'g', h: 'h', i: 'i',
+                 j: 'j', k: 'k', l: 'l',
+                 m: 'm', n: 'n', o: 'o',
+                 p: 'p', q: 'q', r: 'r',
+                 s: 's', t: 't', u: 'u',
+                 v: 'v', w: 'w', x: 'x',
+                 y: 'y', z: 'z'}
         }
 
     }
 
     buttonHandler(event) {
+      event.preventDefault()
+      this.props.enemyMapHandler(this.state.map)
     }
 
     inputHandler(event) {
@@ -33,6 +36,9 @@ class LetterContainer extends Component {
                 event.target.classList.remove('notLetter');
                 var temp = this.state.map
                 temp[event.target.getAttribute("id").toLowerCase()] = event.target.value
+                if(temp[event.target.getAttribute("id").toLowerCase()] === this.cipher.map[event.target.getAttribute("id").toLowerCase()]) {
+                  event.target.classList.add('correct')
+                }
                 this.setState({map: temp})
         }
         else {

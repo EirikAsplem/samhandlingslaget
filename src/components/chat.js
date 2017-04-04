@@ -8,7 +8,7 @@ class Chat extends Component {
   constructor(props) {
     super(props)
 
-    this.cipher = window.Cipher
+    this.cipher = props.Cipher
     this.state = {
       userName: "username",
       messages: [],
@@ -18,11 +18,14 @@ class Chat extends Component {
       input: "",
       prevInput: 0,
       typers: [],
-      playerinfoUpdated: false
+      playerinfoUpdated: false,
+      enemyMap: props.enemyMap,
+      enemyMapReal: []
     }
   }
   componentWillReceiveProps(nextProps) {
-    this.setState({team: nextProps.team})
+    this.setState({team: nextProps.team,
+                    enemyMap: nextProps.enemyMap})
   }
 
   componentDidMount() {
@@ -32,7 +35,9 @@ class Chat extends Component {
       console.log(msg.msg)
       var temp = that.state.messages
       if (msg.team === that.state.team) {
-        msg.msg = that.cipher.toQWERTY(msg.msg + '', true)
+        msg.msg = that.cipher.toQWERTY(msg.msg + '', true) //Lagspiller melding
+      } else {
+        msg.msg = that.cipher.toQWERTY(msg.msg + '', true, that.state.enemyMap) //Motspiller melding
       }
       temp.push(msg)
       that.setState({messages: temp})
@@ -44,8 +49,12 @@ class Chat extends Component {
       that.setState({players: msg.msg})
       for (var key in that.state.players) {
         if (that.state.players[key].team === that.state.team && that.state.players[key].map != "") {
-          console.log('setting new map');
+          console.log('setting new map')
           that.cipher.setMap(that.state.players[key].map)
+        }
+        if (that.state.players[key].team !== that.state.team) {
+          console.log('setting new enemyMap')
+          that.setState({enemyMapReal: that.state.players[key].map})
         }
       }
       console.log(that.state.players)

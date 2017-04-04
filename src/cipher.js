@@ -52,7 +52,7 @@
 
      Cipher.map = Cipher.makeRandomMap()
 
-    Cipher.toQWERTY = function(text, decode) {
+    Cipher.toQWERTY = function(text, decode, enemyMap) {
         // ABCDEF to QWERTY map
         // var map = {
         //     a: 'q', b: 'w', c: 'e',
@@ -69,6 +69,9 @@
         // Flip the map
         var map = Cipher.map
         if(decode) {
+          if (enemyMap) {
+            map = enemyMap
+          }
             map = (function() {
                 var tmp = {};
                 var k;

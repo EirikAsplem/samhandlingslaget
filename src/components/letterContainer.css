@@ -57,6 +57,10 @@
     background-color: #ff947c !important;
 }
 
+.correct {
+  background-color: #AEF35A;
+}
+
 .button {
     width: 20%;
     border: none;
